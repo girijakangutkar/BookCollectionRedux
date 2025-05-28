@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.col1 {
+  width: 100%;
+  justify-items: center;
+  /* border: 1px solid white; */
+}
+
+.col2 {
+  width: 100%;
+  justify-items: center;
+  justify-self: center;
+  /* border: 1px solid white; */
+}
+
+#formField {
+  width: 100%;
+}
