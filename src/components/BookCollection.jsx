@@ -12,11 +12,15 @@ function BookCollection() {
   const bookLibrary = useSelector((state) => state);
   const dispatch = useDispatch();
 
+  function AllBooks() {
+    return [...bookLibrary].sort((a, b) => b.id - a.id);
+  }
+
   return (
     <div className="container">
       <div className="col1">
-        <Card.Root size="xl" padding={10} margin={10}>
-          <Fieldset.Root size="xl">
+        <Card.Root padding={10} margin={3}>
+          <Fieldset.Root>
             <form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -87,48 +91,48 @@ function BookCollection() {
       </div>
 
       <div className="col2">
-        <Stack gap="4" direction="row" wrap="wrap" margin={20}>
-          {bookLibrary.map((book) => (
-            <Card.Root width="320px" key={book.id}>
-              <Card.Body
-                gap="2"
-                textDecoration={book.readStatus ? "line-through" : "none"}
+        {/* <Stack gap="4" direction="row" wrap="wrap" margin={20}> */}
+        {AllBooks().map((book) => (
+          <Card.Root width="320px" key={book.id} margin={5}>
+            <Card.Body
+              gap="2"
+              textDecoration={book.readStatus ? "line-through" : "none"}
+            >
+              <Card.Title mb="2">{book.title}</Card.Title>
+              <Card.Title mb="2">{book.author}</Card.Title>
+              <Card.Description>{book.genre}</Card.Description>
+            </Card.Body>
+            <Card.Footer justifyContent="flex-end">
+              <Button
+                colorPalette="teal"
+                onClick={() => {
+                  setEditId(book.id);
+                  setTitle(book.title);
+                  setAuthor(book.author);
+                  setGenre(book.genre);
+                }}
+                variant="subtle"
               >
-                <Card.Title mb="2">{book.title}</Card.Title>
-                <Card.Title mb="2">{book.author}</Card.Title>
-                <Card.Description>{book.genre}</Card.Description>
-              </Card.Body>
-              <Card.Footer justifyContent="flex-end">
-                <Button
-                  colorPalette="teal"
-                  onClick={() => {
-                    setEditId(book.id);
-                    setTitle(book.title);
-                    setAuthor(book.author);
-                    setGenre(book.genre);
-                  }}
-                  variant="subtle"
-                >
-                  Edit
-                </Button>
-                <Button
-                  colorPalette="red"
-                  onClick={() => dispatch(DeleteBook(book.id))}
-                  variant="subtle"
-                >
-                  Delete
-                </Button>
-                <Button
-                  colorPalette="green"
-                  onClick={() => dispatch(markAsRead(book.id))}
-                  variant="subtle"
-                >
-                  {book.readStatus ? "Unread" : "Mark as Read"}
-                </Button>
-              </Card.Footer>
-            </Card.Root>
-          ))}
-        </Stack>
+                Edit
+              </Button>
+              <Button
+                colorPalette="red"
+                onClick={() => dispatch(DeleteBook(book.id))}
+                variant="subtle"
+              >
+                Delete
+              </Button>
+              <Button
+                colorPalette="green"
+                onClick={() => dispatch(markAsRead(book.id))}
+                variant="subtle"
+              >
+                {book.readStatus ? "Unread" : "Mark as Read"}
+              </Button>
+            </Card.Footer>
+          </Card.Root>
+        ))}
+        {/* </Stack> */}
       </div>
     </div>
   );
